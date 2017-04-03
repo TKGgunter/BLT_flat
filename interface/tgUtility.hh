@@ -36,6 +36,10 @@ float deltaPhi(float dPhi_);
 float dR(baconhep::TMuon* lep1, baconhep::TJet* jet);
 
 float dR(baconhep::TElectron* lep1, baconhep::TJet* jet);   
+
+float dR( TGPhysObject* obj1, TGPhysObject* obj2);
+
+float dR( float phi1, float phi2, float eta1, float eta2);
 /*
 float dR(baconhep::TMuon* lep1, TGenJet* jet);
 
@@ -71,7 +75,9 @@ void tgCleanVector(std::vector<baconhep::TMuon*>& muonList);
 
 void tgCleanVector(std::vector<baconhep::TElectron*>& elecList);
 
-void tgCleanVector(std::vector<baconhep::TJet*>& jetList, int nVtx);
+void tgCleanVector(std::vector<baconhep::TJet*>& jetList);
 
 void tgConcateList(std::vector<baconhep::TMuon*> &muonList, std::vector<baconhep::TElectron*> &elecList, std::vector<TGPhysObject*> &objList);
+
+void tgConcateList(std::vector<baconhep::TGenParticle*> &muonList, std::vector<baconhep::TGenParticle*> &elecList, std::vector<TGPhysObject*> &objList);
 #endif

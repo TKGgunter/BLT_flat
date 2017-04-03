@@ -30,6 +30,8 @@
 #include "BaconAna/DataFormats/interface/TJet.hh"
 #include "BaconAna/DataFormats/interface/TAddJet.hh"
 
+#include "BaconAna/Utils/interface/RunLumiRangeMap.h"
+
 #include "BLT/BLTAnalysis/interface/BLTHelper.hh"
 
 

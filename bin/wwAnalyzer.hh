@@ -20,13 +20,17 @@
 #include "BLT/BLTAnalysis/interface/BLTSelector.hh"
 #include "BLT/BLTAnalysis/interface/Parameters.hh"
 //#include "BLT/BLTAnalysis/interface/Cuts.hh"
-//#include "BLT/BLTAnalysis/interface/TriggerSelector.hh"
+#include "BLT/BLTAnalysis/interface/TriggerSelector.hh"
 //#include "BLT/BLTAnalysis/interface/ParticleSelector.hh"
 #include "BLT/BLTAnalysis/interface/tgPhysObject.hh"
+#include "BLT/BLTAnalysis/interface/muresolution.h"
+#include "BLT/BLTAnalysis/interface/rochcor2012wasym.h"
+#include "BLT/BLTAnalysis/interface/WeightUtils.h"
 
 // ROOT headers
 #include <TLorentzVector.h>
 #include <TVector3.h>
+#include <TH1.h>
 
 // C++ headers
 #include <string>
@@ -55,26 +59,24 @@ public:
     void    ReportPostTerminate();
 
     TFile       *outFile;
-    TTree       *outTree;
+    //TTree       *outTree;
 		TTree 			*treeVector;
+		TH1F				*nEvents;
+		TH1F				*nPV_plot;
+		TH1F				*gen_nPV_plot;
+
     std::string  outFileName;
     std::string  outTreeName;
 
+		rochcor2012 *muonCorr;
+		RunLumiRangeMap lumiMask;
     // Params and cuts
     std::unique_ptr<Parameters>         params;
 //    std::unique_ptr<Cuts>               cuts;
-//    std::unique_ptr<TriggerSelector>    triggerSelector;
+    std::unique_ptr<baconhep::TTrigger>    triggerSelector;
+    //std::unique_ptr<TriggerSelector>    triggerSelector;
 //    std::unique_ptr<ParticleSelector>   particleSelector;
 
-    // Branches in the output file
-//    TLorentzVector muonOne;
- /*  TLorentzVector muonTwo;
-    TLorentzVector dimuon;
-
-    TLorentzVector genMuonOne;
-    TLorentzVector genMuonTwo;
-    TLorentzVector genZ;
-*/
     //ClassDef(DemoAnalyzer,0);
 };
 

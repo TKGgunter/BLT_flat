@@ -68,6 +68,23 @@ float dR(baconhep::TElectron* lep1, baconhep::TJet* jet){
 	dR_ = sqrt(pow(dPhi, 2) + pow(dEta, 2));
 	return dR_;
 }
+
+float dR(TGPhysObject* obj1, TGPhysObject* obj2){  
+	float dR_ = 0.; 
+	float dPhi = deltaPhi(obj1->phi - obj2->phi);   
+	float dEta = obj1->eta - obj2->eta; 
+	dR_ = sqrt(pow(dPhi, 2) + pow(dEta, 2));
+	return dR_;
+}
+
+float dR( float phi1, float phi2, float eta1, float eta2){
+	float dR_  = 0.;
+	float dPhi = deltaPhi( phi1-phi2);
+	float dEta = eta1-eta2;
+	dR_ = sqrt( pow(dPhi, 2.) + pow(dEta, 2) ); 
+	return dR_;
+}
+
 /*
 float dR(baconhep::TMuon* lep1, TGenJet* jet){                                                     
   float dR_ = 0.;
@@ -249,7 +266,7 @@ void tgCleanVector(std::vector<baconhep::TMuon*>& muonList){
 	for(unsigned int i = 1 ; i < muonList.size(); i++ ){
 		baconhep::TMuon* muon1 = (baconhep::TMuon*) muonList.at(i);
 		baconhep::TMuon* muon2 = (baconhep::TMuon*) muonList.at(i-1);
-		if (muon1->pfPt == muon2->pfPt){
+		if (muon1->pfPt == muon2->pfPt && muon1->pfPhi == muon2->pfPt){ 
 			muonList.erase(muonList.begin() + i);
 			i=i-1;
 		}
@@ -260,7 +277,7 @@ void tgCleanVector(std::vector<baconhep::TElectron*>& elecList){
   for(unsigned int i = 1 ; i < elecList.size(); i++ ){
     baconhep::TElectron* electron1 = (baconhep::TElectron*) elecList.at(i);
     baconhep::TElectron* electron2 = (baconhep::TElectron*) elecList.at(i-1);
-    if (electron1->pfPt == electron2->pfPt){
+    if (electron1->pfPt == electron2->pfPt && electron1->pfPhi == electron2->pfPhi){
       elecList.erase(elecList.begin() + i);
 			i=i-1;
     }
@@ -268,17 +285,24 @@ void tgCleanVector(std::vector<baconhep::TElectron*>& elecList){
 }
 
 
-void tgCleanVector(std::vector<baconhep::TJet*>& jetList, int nVtx){
+void tgCleanVector(std::vector<baconhep::TJet*>& jetList){
   for(unsigned int i = 1 ; i < jetList.size(); i++ ){
     baconhep::TJet* jet1 = (baconhep::TJet*) jetList.at(i);
     baconhep::TJet* jet2 = (baconhep::TJet*) jetList.at(i-1);
+		if( jet1 == NULL || jet2 == NULL)
+		{
+			printf("jets broken");
+			break;
+		}
     if (jet1->pt == jet2->pt){
       jetList.erase(jetList.begin() + i);
       i=i-1;
     }
+		//printf("nVtx %i\n", nVtx);
+		/*
 		if(fabs(jet2->eta) < 2.5){
 			if ( jet2->betaStar/log(nVtx-0.64) > .2  && jet2->dR2Mean > 0.06) {
-				printf( "kill 1\n" );
+				printf( "kill 1 %i\n", i );
 				jetList.erase( jetList.begin() + i - 1);
 			}
 		}
@@ -294,15 +318,22 @@ void tgCleanVector(std::vector<baconhep::TJet*>& jetList, int nVtx){
 				jetList.erase( jetList.begin() + i -1  ); 
 			}
 		}
+
 		else {
 			if( jet2->dR2Mean > 0.055){
 				printf("kill 4\n");
 				jetList.erase(jetList.begin() + i - 1 );
 			}
 		}
+		*/
   }
 }
 
+
+//=================================================
+//void tgDeltaR( std::vector<baconhep::TElectron*> electList, std::vector<baconhep::TMuon*> muonList){
+//
+//}
 
 //=================================================
 
@@ -315,6 +346,22 @@ void tgConcateList(std::vector<baconhep::TMuon*> &muonList, std::vector<baconhep
 	}
 	for(unsigned int i = 0; i < muonList.size() ; i++){
 		baconhep::TMuon* muon = (baconhep::TMuon*) muonList.at(i);
+		TGPhysObject* po_muon = new TGPhysObject(muon);
+		objList.push_back(po_muon);
+	}
+
+	tgSort(objList);	
+}
+
+void tgConcateList(std::vector<baconhep::TGenParticle*> &muonList, std::vector<baconhep::TGenParticle*> &elecList, std::vector<TGPhysObject*>& objList){
+
+	for(unsigned int i = 0; i < elecList.size() ; i++){
+		baconhep::TGenParticle* electron = (baconhep::TGenParticle*) elecList.at(i);
+		TGPhysObject* po_ele = new TGPhysObject(electron);
+		objList.push_back(po_ele);
+	}
+	for(unsigned int i = 0; i < muonList.size() ; i++){
+		baconhep::TGenParticle* muon = (baconhep::TGenParticle*) muonList.at(i);
 		TGPhysObject* po_muon = new TGPhysObject(muon);
 		objList.push_back(po_muon);
 	}

@@ -1,4 +1,5 @@
 <use name="BaconAna/DataFormats"/>
+<use name="BaconAna/Utils"/>
 <use name="root"/>
 <use name="rootcore"/>
 <use name="rootrflx"/>

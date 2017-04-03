@@ -1,3 +1,4 @@
+//Thoth Gunter
 #ifndef TGPHYSOBJECTS_HH
 #define TGPHYSOBJECTS_HH
 
@@ -11,24 +12,20 @@
 #include <TLorentzVector.h>
 
 class TGPhysObject{
-	public:
-	TGPhysObject();	
-	TGPhysObject(baconhep::TMuon* muon);
-	TGPhysObject(baconhep::TElectron* electron);
-	TGPhysObject(baconhep::TJet* jet);
-	TGPhysObject(baconhep::TGenParticle* particle);
+  public:
+  TGPhysObject(); 
+  TGPhysObject(baconhep::TMuon* muon);
+  TGPhysObject(baconhep::TElectron* electron);
+  TGPhysObject(baconhep::TJet* jet);
 
-	~TGPhysObject(){}
+  ~TGPhysObject(){}
 
-	void calcP4();
-	void decontructP4();
+  static const double ELE_MASS = 0.000511;
+  static const double MUON_MASS = 0.105658369;
 
-	double ELE_MASS; // = 0.000511;
-	double MUON_MASS;// = 0.105658369;
-
-	float pt, eta, phi, iso;
-	int id, charge, mother;
-	TLorentzVector p4;
+  float pt, eta, phi;
+  int id, charge, mother;
+  TLorentzVector p4;
 
 };
 #endif  

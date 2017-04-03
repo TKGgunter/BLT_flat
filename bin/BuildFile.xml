@@ -1,4 +1,4 @@
 <use name="BLT/BLTAnalysis"/>
 <use name="root"/>
 <flags CXXFLAGS="-g -Wall"/>
-<bin file="DemoAnalyzer.cc"     name="build_ana_nTuples"></bin>
+<bin file="wwAnalyzer.cc"     name="build_ana_nTuples"></bin>
